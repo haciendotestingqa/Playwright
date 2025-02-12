@@ -14,7 +14,6 @@ export class homePage {
                 home: this.page.locator('a[href="index.html"] img[alt="logo cinex"]').first(),
                 login: this.page.locator('[href="#login-register-popup"]')
 
-
             }
         }
     }
@@ -27,6 +26,6 @@ export class homePage {
     async navigateToCINEXWebsite(){
         const URL = 'https://www.cinex.com.ve/';
         await this.page.goto(URL);
-
     }
+
 }

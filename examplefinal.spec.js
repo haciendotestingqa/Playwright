@@ -9,13 +9,16 @@ const { loginPage } = require('./loginCINEX.page.');
 
 // URL de prueba
 //const URL = 'https://www.cinex.com.ve/';
-const Usuario = 'romerovg.16@gmail.com';
-const Contrasena = 'VEr2476494.';
-const Saludo = 'Hola Verónica';
+//const Usuario = 'romerovg.16@gmail.com';
+//const Contrasena = 'VEr2476494.';
+//const Saludo = 'Hola Verónica';
 const Pelicula = 'MOANA 2';
 
 
+
 async function cerrarPopUp(page) {
+
+  const HomePage = new homePage(page);
 
   // Abrir pagina web de prueba
   
@@ -65,14 +68,27 @@ async function cerrarPopUp(page) {
 
 async function inicioSesion(page) {
 
+  const LoginPage = new loginPage(page);
+  const Saludo = 'Hola Verónica';
+
+
   // Hacer click en Boton INGRESA e ingresar datos de Usuario y Contrasena
   await page.getByRole('banner').getByRole('link', { name: 'Ingresa' }).click();  
   await page.getByPlaceholder('Ingrese su Correo Electrónico').click();
-  await page.locator('input[id="username"]').fill(Usuario);
-  await page.locator('input[id="password"]').fill(Contrasena);
-  await page.locator('input[id="btnloginsubmit"]').click();
+
+  await LoginPage.insertCorreoElectronico();
+  await LoginPage.insertContrasena();
+
+
+  //await page.locator('input[id="username"]').fill(Usuario);
+  //await page.locator('input[id="password"]').fill(Contrasena);
+
+  await LoginPage.clickOnAceptarButton();
+
+  //await page.locator('input[id="btnloginsubmit"]').click();
 
   // Validacion de Inicio de Sesion exitoso
+
   await expect(page.locator('a.login-btn span#usernames').first()).toBeVisible();
   await expect(page.locator('a.login-btn span#usernames').first()).toHaveText(Saludo);
   
@@ -129,7 +145,7 @@ test.describe('CINEX Website', () => {
 
 
     // Esperar a que cargue el detalle de la pelicula
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(5000);
 
 
 
