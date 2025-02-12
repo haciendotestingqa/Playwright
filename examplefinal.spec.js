@@ -1,4 +1,6 @@
 const { test, expect } = require('@playwright/test');
+const { homePage } = require('../Playwright/homeCINEX.page');
+const { loginPage } = require('./loginCINEX.page.');
 
 //AAA
 //POM
@@ -6,7 +8,7 @@ const { test, expect } = require('@playwright/test');
 // DECLARACION DE VARIABLES >
 
 // URL de prueba
-const URL = 'https://www.cinex.com.ve/';
+//const URL = 'https://www.cinex.com.ve/';
 const Usuario = 'romerovg.16@gmail.com';
 const Contrasena = 'VEr2476494.';
 const Saludo = 'Hola Verónica';
@@ -16,7 +18,8 @@ const Pelicula = 'MOANA 2';
 async function cerrarPopUp(page) {
 
   // Abrir pagina web de prueba
-  await page.goto(URL);
+  
+  await HomePage.navigateToCINEXWebsite();
 
     // Ubicar la imagen de la ventana pop-up desplegada al inicio
   const imagePopUp = 'img[src="assets/popup/xpre-venta-disponible-feed.jpg.pagespeed.ic.YaPJbvzW3-.webp"]';
@@ -76,9 +79,15 @@ async function inicioSesion(page) {
 };
 
 
+
+
 test.describe('CINEX Website', () => {
 
     test('Flujo de Compra PELICULA TOP 5', async ({ page }) => {
+    
+    const HomePage = new homePage(page);
+    const LoginPage = new loginPage(page);
+  
 
     // Llamar a Funcion Cierre de Pop-up desplegado al inicio
     await cerrarPopUp(page);
@@ -87,7 +96,8 @@ test.describe('CINEX Website', () => {
     await inicioSesion(page);
 
     // Ir al Home (verificar si hace falta)
-    await page.goto(URL);
+          //await page.getByRole('link', { name: 'logo cinex' }).click();
+    await HomePage.clickOnCINEXLogo();
     await page.waitForTimeout(5000);
 
     // Llamar a Funcion Cierre de Pop-up desplegado al inicio
@@ -110,9 +120,18 @@ test.describe('CINEX Website', () => {
  
     // Hacer click sobre el boton "COMPRAR"
     await page.getByRole('link', { name: 'COMPRAR' }).click();
+
+
  
+
+
+
+
+
     // Esperar a que cargue el detalle de la pelicula
     await page.waitForTimeout(1000);
+
+
 
   });
 }); 
